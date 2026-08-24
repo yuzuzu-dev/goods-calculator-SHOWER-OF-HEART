@@ -278,7 +278,9 @@ export default function Home() {
               {/* サイズあり商品 */}
               {hasVariants ? (
                 <div className="mt-3">
-
+                  <p className="mt-1 text-sm text-gray-500">
+                    ¥{item.price.toLocaleString()}
+                  </p>
 
                   <div className="grid grid-cols-3 gap-2">
                     {item.variants?.map(

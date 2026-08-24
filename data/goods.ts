@@ -19,24 +19,6 @@ export const goods = [
 
   {
     id: 3,
-    name: "背景付きアクリルスタンド１",
-    price: 3300,
-    limit: 10,
-    group: "キービジュアル",
-    categories: ["アクリルスタンド"],
-  },
-
-  {
-    id: 4,
-    name: "アクリルキーホルダー１（タテ型）",
-    price: 1100,
-    limit: 10,
-    group: "キービジュアル",
-    categories: ["キーホルダー"],
-  },
-
-  {
-    id: 5,
     name: "A4クリアファイル２（ヨコ型）",
     price: 660,
     limit: 10,
@@ -45,8 +27,26 @@ export const goods = [
   },
 
   {
+    id: 4,
+    name: "背景付きアクリルスタンド１（タテ型）",
+    price: 3300,
+    limit: 10,
+    group: "キービジュアル",
+    categories: ["アクリルスタンド"],
+  },
+
+  {
+    id: 5,
+    name: "背景付きアクリルスタンド２（ヨコ型）",
+    price: 3300,
+    limit: 10,
+    group: "キービジュアル",
+    categories: ["アクリルスタンド"],
+  },
+
+  {
     id: 6,
-    name: "アクリルキーホルダー２（ヨコ型）",
+    name: "アクリルキーホルダー１（タテ型）",
     price: 1100,
     limit: 10,
     group: "キービジュアル",
@@ -55,13 +55,13 @@ export const goods = [
 
   {
     id: 7,
-    name: "背景付きアクリルスタンド２",
-    price: 3300,
+    name: "アクリルキーホルダー２（ヨコ型）",
+    price: 1100,
     limit: 10,
     group: "キービジュアル",
-    categories: ["アクリルスタンド"],
+    categories: ["キーホルダー"],
   },
-
+  
   {
     id: 8,
     name: "アクリルキーホルダーA",
