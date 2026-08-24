@@ -1,4 +1,4 @@
-export const goodsUpdatedAt = "2026/8/23";
+export const goodsUpdatedAt = "2026/8/24";
 
 export const goods = [
   {
