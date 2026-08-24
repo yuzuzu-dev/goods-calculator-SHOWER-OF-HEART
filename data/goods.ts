@@ -1,3 +1,5 @@
+export const goodsUpdatedAt = "2026/8/23";
+
 export const goods = [
   {
     id: 1,
@@ -61,7 +63,7 @@ export const goods = [
     group: "キービジュアル",
     categories: ["キーホルダー"],
   },
-  
+
   {
     id: 8,
     name: "アクリルキーホルダーA",

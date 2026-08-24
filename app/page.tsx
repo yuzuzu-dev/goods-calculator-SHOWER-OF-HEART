@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { goods } from "../data/goods";
+import { goods, goodsUpdatedAt } from "@/data/goods";
 
 export default function Home() {
   // 通常商品 → "default"
@@ -190,6 +190,10 @@ export default function Home() {
           ～輝く光のプレゼント～
         </p>
       </header>
+
+        <p className="px-4 pt-1 text-right text-[10px] text-gray-500">
+          最終更新：{goodsUpdatedAt}
+        </p>
 
       <section className="mx-auto max-w-xl space-y-2 p-4">
         <div className="sticky top-0 z-40 -mx-4 bg-[#FDF1F4] px-4 pb-2 pt-4">
