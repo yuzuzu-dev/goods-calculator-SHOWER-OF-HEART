@@ -287,7 +287,7 @@ export default function Home() {
         </p>
 
         <h1 className="mt-1 text-lg font-bold leading-tight">
-          SHOWER OF HEART
+          SHOWER OF HEART★
         </h1>
 
         <p className="mt-1 text-xs text-white">
