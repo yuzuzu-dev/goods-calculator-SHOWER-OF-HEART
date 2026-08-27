@@ -81,7 +81,7 @@ export async function GET() {
     );
 
     const rows = parseCSV(csv);
-
+    const updatedAt = rows[0]?.[9]?.trim() || null;
     const dataRows = rows.slice(1);
     const errors: string[] = [];
     const seenIds = new Map<number, number>();
@@ -234,6 +234,7 @@ export async function GET() {
 
         return NextResponse.json({
         goods,
+        updatedAt,
         });
   } catch (error) {
     console.error(

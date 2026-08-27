@@ -32,6 +32,7 @@ export default function Home() {
     const [goods, setGoods] = useState<Good[]>([]);
     const [goodsLoading, setGoodsLoading] = useState(true);
     const [goodsError, setGoodsError] = useState<string[]>([]);
+    const [updatedAt, setUpdatedAt] = useState<string | null>(null);
     const [cleaned, setCleaned] = useState(false);
 
       useEffect(() => {
@@ -50,7 +51,7 @@ export default function Home() {
     }
 
     setGoods(data.goods ?? []);
-
+    setUpdatedAt(data.updatedAt ?? null);
     } catch (error) {
 
       console.error("商品データ取得エラー:", error);
@@ -282,7 +283,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#FDF1F4] pb-32">
       {/* ヘッダー */}
-      <header className="bg-[#4A90E2] px-4 py-4 text-white">
+      <header className="relative bg-[#4A90E2] px-4 py-4 text-white">
         <p className="text-[10px] font-medium tracking-[0.2em] text-white">
           GOODS CALCULATOR
         </p>
@@ -294,6 +295,12 @@ export default function Home() {
         <p className="mt-1 text-xs text-white">
           ～輝く光のプレゼント～
         </p>
+
+        {updatedAt && (
+          <p className="absolute bottom-2 right-4 text-[10px] text-white/80">
+            更新日: {updatedAt}
+          </p>
+        )}
       </header>
 
       <section className="mx-auto max-w-xl space-y-2 p-4">
