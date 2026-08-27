@@ -93,6 +93,7 @@ export default function Home() {
       JSON.stringify(quantities)
     );
   }, [quantities, loaded]);
+
   // 保存データと現在の商品リストを照合し、
   // 存在しない商品・サイズ・上限超過分を自動で掃除する
   useEffect(() => {
@@ -296,7 +297,7 @@ export default function Home() {
       </header>
 
       <section className="mx-auto max-w-xl space-y-2 p-4">
-        <div className="sticky top-0 z-40 -mx-4 bg-[#FDF1F4] px-4 pb-2 pt-4">
+        <div className="sticky top-0 z-40 -mx-4 bg-[#FDF1F4] px-4 pb-2 pt-2">
 
           {/* 検索 */}
           <input
@@ -304,7 +305,7 @@ export default function Home() {
             placeholder="🔍 商品を検索..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm shadow-sm outline-none focus:border-gray-400"
+            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-400"
           />
 
           {/* 大カテゴリ */}
@@ -395,15 +396,13 @@ export default function Home() {
                 {item.categories.join("・")}
               </p>
 
-              <h2 className="text-sm font-bold leading-snug">
+              <h2 className="text-sm font-bold leading-snug text-gray-900">
                 {item.name}
               </h2>
 
               {/* サイズあり商品 */}
               {hasVariants ? (
                 <div className="mt-3">
-
-
                   <div className="grid grid-cols-3 gap-2">
                     {item.variants?.map(
                       (variant) => {
@@ -417,7 +416,7 @@ export default function Home() {
                             key={variant}
                             className="rounded-xl border p-1.5 text-center"
                           >
-                            <p className="text-sm font-bold">
+                            <p className="text-sm font-bold text-gray-900">
                               {variant}
                             </p>
 
@@ -430,12 +429,12 @@ export default function Home() {
                                     variant
                                   )
                                 }
-                                className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-sm font-bold"
+                                className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-sm font-bold text-gray-900"
                               >
                                 −
                               </button>
 
-                              <span className="w-5 text-center font-bold">
+                              <span className="w-5 text-center font-bold text-gray-900">
                                 {quantity}
                               </span>
 
@@ -447,7 +446,7 @@ export default function Home() {
                                     variant
                                   )
                                 }
-                                className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5B9BD5] text-lg font-bold text-white"
+                                className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] text-lg font-bold text-white"
                               >
                                 ＋
                               </button>
@@ -470,12 +469,12 @@ export default function Home() {
                     onClick={() =>
                       changeQuantity(item.id, -1)
                     }
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-base font-bold"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-base font-bold text-gray-900"
                   >
                     −
                   </button>
 
-                  <span className="w-5 text-center text-base font-bold">
+                  <span className="w-5 text-center text-base font-bold text-gray-900">
                     {quantities[item.id]?.default ?? 0}
                   </span>
 
@@ -483,7 +482,7 @@ export default function Home() {
                     onClick={() =>
                       changeQuantity(item.id, 1)
                     }
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-[#5B9BD5] text-base font-bold text-white"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5B9BD5] text-base font-bold text-white"
                   >
                     ＋
                   </button>
@@ -504,7 +503,7 @@ export default function Home() {
         {/* 選択中のグッズ */}
         {selectedGoods.length > 0 && (
           <div className="mt-3 rounded-xl border border-[#93C5FD] bg-[#EFF6FF] p-3 shadow-sm">
-            <h2 className="text-base font-bold">
+            <h2 className="text-base font-bold text-gray-900">
               選択中のグッズ
             </h2>
 
@@ -527,7 +526,7 @@ export default function Home() {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium leading-tight">
+                        <p className="text-sm font-medium leading-tight text-gray-900">
                           {item.name}
                         </p>
 
@@ -536,7 +535,7 @@ export default function Home() {
                         </p>
                       </div>
 
-                      <p className="font-bold">
+                      <p className="font-bold text-gray-900">
                         ¥
                         {(
                           item.price *
@@ -565,7 +564,7 @@ export default function Home() {
                                 key={variant}
                                 className="flex items-center justify-between"
                               >
-                                <p className="text-sm">
+                                <p className="text-sm text-gray-900">
                                   {variant} × {quantity}
                                 </p>
 
@@ -578,12 +577,12 @@ export default function Home() {
                                         variant
                                       )
                                     }
-                                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-sm font-bold"
+                                    className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-sm font-bold text-gray-900"
                                   >
                                     −
                                   </button>
 
-                                  <span className="w-5 text-center text-sm font-bold">
+                                  <span className="w-5 text-center text-sm font-bold text-gray-900">
                                     {quantity}
                                   </span>
 
@@ -608,7 +607,7 @@ export default function Home() {
                                         variant
                                       )
                                     }
-                                    className="ml-1 text-sm font-bold text-red-600"
+                                    className="ml-1 text-xs font-bold text-red-600"
                                   >
                                     削除
                                   </button>
@@ -625,12 +624,12 @@ export default function Home() {
                           onClick={() =>
                             changeQuantity(item.id, -1)
                           }
-                          className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-sm font-bold"
+                          className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-sm font-bold text-gray-900"
                         >
                           −
                         </button>
 
-                        <span className="w-5 text-center text-sm font-bold">
+                        <span className="w-5 text-center text-sm font-bold text-gray-900">
                           {itemQuantities.default ?? 0}
                         </span>
 
