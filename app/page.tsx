@@ -500,12 +500,21 @@ export default function Home() {
           );
         })}
 
-        {/* 商品がない場合 */}
-        {filteredGoods.length === 0 && (
+        {/* 読み込み中 */}
+        {goodsLoading && (
           <div className="rounded-2xl bg-white p-8 text-center text-gray-600">
-            該当するグッズがありません。
+            読み込み中です...
           </div>
         )}
+
+        {/* 商品がない場合 */}
+        {!goodsLoading &&
+          goodsError.length === 0 &&
+          filteredGoods.length === 0 && (
+            <div className="rounded-2xl bg-white p-8 text-center text-gray-600">
+              該当するグッズがありません。
+            </div>
+          )}
 
         {/* 選択中のグッズ */}
         {selectedGoods.length > 0 && (
