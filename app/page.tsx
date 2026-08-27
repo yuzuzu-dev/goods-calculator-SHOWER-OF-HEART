@@ -32,6 +32,7 @@ export default function Home() {
     const [goods, setGoods] = useState<Good[]>([]);
     const [goodsLoading, setGoodsLoading] = useState(true);
     const [goodsError, setGoodsError] = useState<string[]>([]);
+    const [cleaned, setCleaned] = useState(false);
 
       useEffect(() => {
     const loadGoods = async () => {
@@ -92,7 +93,58 @@ export default function Home() {
       JSON.stringify(quantities)
     );
   }, [quantities, loaded]);
+  // 保存データと現在の商品リストを照合し、
+  // 存在しない商品・サイズ・上限超過分を自動で掃除する
+  useEffect(() => {
+    if (!loaded || goodsLoading || cleaned) {
+      return;
+    }
 
+    // 商品データの取得に失敗している場合は、
+    // 保存済みデータを誤って消さないよう何もしない
+    if (goods.length === 0) {
+      return;
+    }
+
+    setQuantities((current) => {
+      const next: Record<number, Record<string, number>> = {};
+
+      for (const item of goods) {
+        const itemQuantities = current[item.id];
+
+        if (!itemQuantities) {
+          continue;
+        }
+
+        const allowedVariants =
+          item.variants && item.variants.length > 0
+            ? item.variants
+            : ["default"];
+
+        const cleanedItem: Record<string, number> = {};
+
+        for (const variant of allowedVariants) {
+          let quantity = itemQuantities[variant] ?? 0;
+
+          if (item.limit !== null && quantity > item.limit) {
+            quantity = item.limit;
+          }
+
+          if (quantity > 0) {
+            cleanedItem[variant] = quantity;
+          }
+        }
+
+        if (Object.keys(cleanedItem).length > 0) {
+          next[item.id] = cleanedItem;
+        }
+      }
+
+      return next;
+    });
+
+    setCleaned(true);
+  }, [loaded, goodsLoading, goods, cleaned]);
 
   // 数量変更
   const changeQuantity = (
