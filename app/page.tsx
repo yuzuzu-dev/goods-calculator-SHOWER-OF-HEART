@@ -410,6 +410,10 @@ export default function Home() {
               {/* サイズあり商品 */}
               {hasVariants ? (
                 <div className="mt-3">
+                  <p className="text-sm text-gray-700">
+                    ¥{item.price.toLocaleString()}
+                  </p>
+
                   <div className="grid grid-cols-3 gap-2">
                     {item.variants?.map(
                       (variant) => {
