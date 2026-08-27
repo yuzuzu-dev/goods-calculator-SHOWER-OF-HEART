@@ -1,7 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { goods, goodsUpdatedAt } from "@/data/goods";
+type Good = {
+  id: number;
+  name: string;
+  price: number;
+  limit: number | null;
+  group: string;
+  categories: string[];
+  variants?: string[];
+  sort: number;
+};
 
 export default function Home() {
   // 通常商品 → "default"
@@ -20,6 +29,44 @@ export default function Home() {
     useState("すべて");
 
   const [loaded, setLoaded] = useState(false);
+    const [goods, setGoods] = useState<Good[]>([]);
+    const [goodsLoading, setGoodsLoading] = useState(true);
+    const [goodsError, setGoodsError] = useState<string[]>([]);
+
+      useEffect(() => {
+    const loadGoods = async () => {
+      try {
+    const response = await fetch("/api/goods");
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.details?.join("\n") ||
+          data.error ||
+          "商品データを取得できませんでした。"
+      );
+    }
+
+    setGoods(data.goods ?? []);
+
+    } catch (error) {
+
+      console.error("商品データ取得エラー:", error);
+
+      if (error instanceof Error) {
+        setGoodsError([error.message]);
+      } else {
+        setGoodsError(["商品データを取得できませんでした。"]);
+      }
+
+    } finally {
+      setGoodsLoading(false);
+    }
+    };
+
+    loadGoods();
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem("goods-quantities");
@@ -70,7 +117,10 @@ export default function Home() {
         return current;
       }
 
-      if (newQuantity > item.limit) {
+      if (
+        item.limit !== null &&
+        newQuantity > item.limit
+      ) {
         return current;
       }
 
@@ -152,7 +202,9 @@ export default function Home() {
       matchesGroup &&
       matchesCategory
     );
-  });
+  })
+  .sort((a, b) => a.sort - b.sort);
+    
 
   // 選択中の商品
   const selectedGoods = goods.filter(
@@ -190,10 +242,6 @@ export default function Home() {
           ～輝く光のプレゼント～
         </p>
       </header>
-
-        <p className="px-4 pt-1 text-right text-[10px] text-gray-500">
-          最終更新：{goodsUpdatedAt}
-        </p>
 
       <section className="mx-auto max-w-xl space-y-2 p-4">
         <div className="sticky top-0 z-40 -mx-4 bg-[#FDF1F4] px-4 pb-2 pt-4">
@@ -260,6 +308,26 @@ export default function Home() {
         </div>
 
         {/* 商品一覧 */}
+        {goodsError.length > 0 && (
+          <div className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-700">
+            <p className="font-bold">
+              商品データに問題があります。
+            </p>
+
+            <ul className="mt-2 space-y-1">
+              {goodsError.map((error, index) => (
+                <li key={index}>
+                  {error}
+                </li>
+              ))}
+            </ul>
+
+            <p className="mt-3">
+              スプレッドシートの内容を確認してください。
+            </p>
+          </div>
+        )}
+        
         {filteredGoods.map((item) => {
           const hasVariants =
             item.variants &&
@@ -282,9 +350,7 @@ export default function Home() {
               {/* サイズあり商品 */}
               {hasVariants ? (
                 <div className="mt-3">
-                  <p className="mt-1 text-sm text-gray-500">
-                    ¥{item.price.toLocaleString()}
-                  </p>
+
 
                   <div className="grid grid-cols-3 gap-2">
                     {item.variants?.map(
@@ -312,7 +378,7 @@ export default function Home() {
                                     variant
                                   )
                                 }
-                                className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-lg font-bold"
+                                className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-sm font-bold"
                               >
                                 −
                               </button>
@@ -465,7 +531,7 @@ export default function Home() {
                                     −
                                   </button>
 
-                                  <span className="w-5 text-center font-bold">
+                                  <span className="w-5 text-center text-sm font-bold">
                                     {quantity}
                                   </span>
 
@@ -477,7 +543,7 @@ export default function Home() {
                                         variant
                                       )
                                     }
-                                    className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5B9BD5] font-bold text-white"
+                                    className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] font-bold text-white"
                                   >
                                     ＋
                                   </button>
