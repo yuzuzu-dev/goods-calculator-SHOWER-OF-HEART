@@ -599,6 +599,10 @@ export default function Home() {
                           {item.name}
                         </p>
 
+                        <p className="mt-0.5 text-[10px] text-gray-500">
+                          {item.group}
+                        </p>
+
                         <p className="mt-0.5 text-xs text-gray-600">
                           ¥{item.price.toLocaleString()}
                         </p>
@@ -616,7 +620,7 @@ export default function Home() {
                     {/* サイズあり商品 */}
                     {item.variants &&
                     item.variants.length > 0 ? (
-                      <div className="mt-1 space-y-1">
+                      <div className="mt-0.5 space-y-1">
                         {item.variants.map(
                           (variant) => {
                             const quantity =
@@ -688,7 +692,7 @@ export default function Home() {
                       </div>
                     ) : (
 
-                      <div className="mt-0 flex items-center justify-end gap-1">
+                      <div className="-mt-1 flex items-center justify-end gap-1">
                         <button
                           onClick={() =>
                             changeQuantity(item.id, -1)
