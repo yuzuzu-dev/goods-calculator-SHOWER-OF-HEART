@@ -533,7 +533,7 @@ export default function Home() {
                             </div>
 
                             {item.limit !== null && (
-                              <p className="mt-0.5 text-[9px] text-gray-400">
+                              <p className="mt-0.5 text-[9px] text-gray-500">
                                 {reachedLimit
                                   ? "上限です"
                                   : `あと${item.limit - quantity}個`}
@@ -554,7 +554,7 @@ export default function Home() {
                   </p>
 
                   {item.limit !== null && (
-                    <p className="text-[10px] text-gray-400">
+                    <p className="text-[10px] text-gray-500">
                       {item.limit -
                         (quantities[item.id]?.default ?? 0) >
                       0
@@ -824,7 +824,7 @@ export default function Home() {
 
                 {selectedGoods.length > 0 && (
                   <p className="text-xs font-bold text-[#5B9BD5]">
-                    ▲ タップで選択中の確認
+                    ▼ 選択中グッズの確認
                   </p>
                 )}
               </div>
@@ -847,7 +847,7 @@ export default function Home() {
           onClick={() =>
             window.scrollTo({ top: 0, behavior: "smooth" })
           }
-          className="fixed bottom-30 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#5B9BD5] text-white shadow-lg"
+          className="fixed bottom-32 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#7BB8E8] text-white shadow-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
