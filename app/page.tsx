@@ -349,7 +349,7 @@ export default function Home() {
             placeholder="🔍 商品を検索..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-400"
+            className="w-full rounded-md border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-400"
           />
 
           {/* 大カテゴリ */}
@@ -419,7 +419,7 @@ export default function Home() {
 
         {/* 商品一覧 */}
         {goodsError.length > 0 && (
-          <div className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm text-red-700">
+          <div className="rounded-md border border-red-300 bg-red-50 p-4 text-sm text-red-700">
             <p className="font-bold">
               商品データに問題があります。
             </p>
@@ -446,7 +446,7 @@ export default function Home() {
           return (
             <div
               key={item.id}
-              className="rounded-xl bg-white px-3 py-2 shadow-sm"
+              className="rounded-md bg-white px-3 py-2 shadow-sm"
             >
               <p className="text-xs text-gray-600">
                 {item.group} /{" "}
@@ -475,7 +475,7 @@ export default function Home() {
                         return (
                           <div
                             key={variant}
-                            className="rounded-xl border p-1.5 text-center"
+                            className="rounded-md border p-1.5 text-center"
                           >
                             <p className="text-sm font-bold text-gray-900">
                               {variant}
@@ -572,7 +572,7 @@ export default function Home() {
 
         {/* 選択中のグッズ */}
         {selectedGoods.length > 0 && (
-          <div className="mt-3 rounded-xl border border-[#93C5FD] bg-[#EFF6FF] p-3 shadow-sm">
+          <div className="mt-3 rounded-md border border-[#93C5FD] bg-[#EFF6FF] p-3 shadow-sm">
             <h2 className="text-base font-bold text-gray-900">
               選択中のグッズ
             </h2>
