@@ -332,15 +332,16 @@ export default function Home() {
           ～輝く光のプレゼント～
         </p>
 
-        {updatedAt && (
-          <p className="absolute bottom-2 right-4 text-[10px] text-white/80">
-            更新日: {updatedAt}
-          </p>
-        )}
+        <div className="absolute bottom-2 right-4 text-right text-xs text-white/80">
+          <p>※非公式アプリです</p>
+          {updatedAt && (
+            <p className="mt-1">更新日: {updatedAt}</p>
+          )}
+        </div>
       </header>
 
       <section className="mx-auto max-w-xl space-y-2 p-4">
-        <div className="sticky top-0 z-40 -mx-4 bg-[#FDF1F4] px-4 pb-2 pt-2">
+        <div className="sticky top-0 z-40 -mx-4 bg-[#FDF1F4] px-4 pb-2 pt-0">
 
           {/* 検索 */}
           <input
