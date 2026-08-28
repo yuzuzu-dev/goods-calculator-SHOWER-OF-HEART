@@ -34,6 +34,7 @@ export default function Home() {
     const [goodsError, setGoodsError] = useState<string[]>([]);
     const [updatedAt, setUpdatedAt] = useState<string | null>(null);
     const [cleaned, setCleaned] = useState(false);
+    const [showScrollTop, setShowScrollTop] = useState(false);
 
       useEffect(() => {
     const loadGoods = async () => {
@@ -94,6 +95,19 @@ export default function Home() {
       JSON.stringify(quantities)
     );
   }, [quantities, loaded]);
+
+    // スクロール量を監視し、一定以上下がったらボタンを表示
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // 保存データと現在の商品リストを照合し、
   // 存在しない商品・サイズ・上限超過分を自動で掃除する
@@ -319,7 +333,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#FDF1F4] pb-32">
       {/* ヘッダー */}
-      <header className="relative bg-[#4A90E2] px-4 py-4 text-white">
+      <header className="relative bg-gradient-to-br from-[#4A90E2] via-[#5B9BD5] to-[#7BB8E8] px-4 py-4 text-white">
         <p className="text-[10px] font-medium tracking-[0.2em] text-white">
           GOODS CALCULATOR
         </p>
@@ -472,6 +486,10 @@ export default function Home() {
                             variant
                           ] ?? 0;
 
+                        const reachedLimit =
+                          item.limit !== null &&
+                          quantity >= item.limit;
+
                         return (
                           <div
                             key={variant}
@@ -507,11 +525,20 @@ export default function Home() {
                                     variant
                                   )
                                 }
-                                className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] text-lg font-bold text-white"
+                                disabled={reachedLimit}
+                                className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] text-lg font-bold text-white disabled:bg-gray-300"
                               >
                                 ＋
                               </button>
                             </div>
+
+                            {item.limit !== null && (
+                              <p className="mt-0.5 text-[9px] text-gray-400">
+                                {reachedLimit
+                                  ? "上限です"
+                                  : `あと${item.limit - quantity}個`}
+                              </p>
+                            )}
                           </div>
                         );
                       }
@@ -521,16 +548,31 @@ export default function Home() {
               ) : (
             
               <div className="mt-3 flex items-center justify-between gap-3">
-                <p className="text-sm text-gray-700">
-                  ¥{item.price.toLocaleString()}
-                </p>
+                <div>
+                  <p className="text-sm text-gray-700">
+                    ¥{item.price.toLocaleString()}
+                  </p>
+
+                  {item.limit !== null && (
+                    <p className="text-[10px] text-gray-400">
+                      {item.limit -
+                        (quantities[item.id]?.default ?? 0) >
+                      0
+                        ? `あと${
+                            item.limit -
+                            (quantities[item.id]?.default ?? 0)
+                          }個まで`
+                        : "上限に達しました"}
+                    </p>
+                  )}
+                </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() =>
                       changeQuantity(item.id, -1)
                     }
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-base font-bold text-gray-900"
+                    className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-base font-bold text-gray-900"
                   >
                     −
                   </button>
@@ -543,7 +585,12 @@ export default function Home() {
                     onClick={() =>
                       changeQuantity(item.id, 1)
                     }
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5B9BD5] text-base font-bold text-white"
+                    disabled={
+                      item.limit !== null &&
+                      (quantities[item.id]?.default ?? 0) >=
+                        item.limit
+                    }
+                    className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] text-base font-bold text-white disabled:bg-gray-300"
                   >
                     ＋
                   </button>
@@ -572,7 +619,10 @@ export default function Home() {
 
         {/* 選択中のグッズ */}
         {selectedGoods.length > 0 && (
-          <div className="mt-3 rounded-md border border-[#93C5FD] bg-[#EFF6FF] p-3 shadow-sm">
+          <div
+            id="selected-goods"
+            className="mt-3 rounded-md border border-[#93C5FD] bg-[#EFF6FF] p-3 shadow-sm"
+          >
             <h2 className="text-base font-bold text-gray-900">
               選択中のグッズ
             </h2>
@@ -618,7 +668,7 @@ export default function Home() {
                       </p>
                     </div>
 
-                    {/* サイズあり商品 */}
+                     {/* サイズあり商品 */}
                     {item.variants &&
                     item.variants.length > 0 ? (
                       <div className="mt-0.5 space-y-1">
@@ -632,6 +682,10 @@ export default function Home() {
                             if (quantity === 0) {
                               return null;
                             }
+
+                            const reachedLimit =
+                              item.limit !== null &&
+                              quantity >= item.limit;
 
                             return (
                               <div
@@ -668,7 +722,8 @@ export default function Home() {
                                         variant
                                       )
                                     }
-                                    className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] font-bold text-white"
+                                    disabled={reachedLimit}
+                                    className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] font-bold text-white disabled:bg-gray-300"
                                   >
                                     ＋
                                   </button>
@@ -711,7 +766,12 @@ export default function Home() {
                           onClick={() =>
                             changeQuantity(item.id, 1)
                           }
-                          className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] text-sm font-bold text-white"
+                          disabled={
+                            item.limit !== null &&
+                            (itemQuantities.default ?? 0) >=
+                              item.limit
+                          }
+                          className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] text-sm font-bold text-white disabled:bg-gray-300"
                         >
                           ＋
                         </button>
@@ -740,23 +800,69 @@ export default function Home() {
       {/* 合計 */}
       <div className="fixed bottom-0 left-0 right-0 border-t border-[#B8D8EF] bg-[#F5FAFE] p-3 shadow-lg">
         <div className="mx-auto max-w-xl">
-          <div className="flex items-center justify-between">
+          <button
+            onClick={() => {
+              const target = document.getElementById(
+                "selected-goods"
+              );
+
+              if (target) {
+                target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }}
+            disabled={selectedGoods.length === 0}
+            className="block w-full text-left disabled:cursor-default"
+          >
             <div>
-              <p className="text-xs font-bold text-gray-500">
-                合計 {totalCount}点
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-bold text-gray-500">
+                  合計 {totalCount}点
+                </p>
+
+                {selectedGoods.length > 0 && (
+                  <p className="text-xs font-bold text-[#5B9BD5]">
+                    ▲ タップで選択中の確認
+                  </p>
+                )}
+              </div>
 
               <p className="text-2xl font-bold text-gray-900">
                 ¥{totalPrice.toLocaleString()}
               </p>
             </div>
-          </div>
+          </button>
 
           <p className="mt-2 text-xs text-gray-600">
             入力内容は自動保存されます。ブラウザのキャッシュ・サイトデータを削除すると消える場合があります。
           </p>
         </div>
       </div>
+
+      {/* 上に戻るボタン */}
+      {showScrollTop && (
+        <button
+          onClick={() =>
+            window.scrollTo({ top: 0, behavior: "smooth" })
+          }
+          className="fixed bottom-30 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#5B9BD5] text-white shadow-lg"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={3.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-5 w-5"
+          >
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
+      )}
     </main>
   );
 }
