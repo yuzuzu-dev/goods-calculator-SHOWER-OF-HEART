@@ -213,6 +213,42 @@ export default function Home() {
     }
   };
 
+  // 表示中の商品をすべて選択(各1個、サイズありは各サイズ1個)
+  const selectAllVisible = () => {
+    setQuantities((current) => {
+      const next = { ...current };
+
+      for (const item of filteredGoods) {
+        const targetVariants =
+          item.variants && item.variants.length > 0
+            ? item.variants
+            : ["default"];
+
+        const existing = { ...(next[item.id] ?? {}) };
+
+        for (const variant of targetVariants) {
+          const already = existing[variant] ?? 0;
+
+          if (already > 0) {
+            continue;
+          }
+
+          const desired = 1;
+
+          existing[variant] =
+            item.limit !== null
+              ? Math.min(desired, item.limit)
+              : desired;
+        }
+
+        next[item.id] = existing;
+      }
+
+      return next;
+    });
+  };
+
+
   // 大カテゴリ一覧
   const groups = [
     "すべて",
@@ -366,6 +402,19 @@ export default function Home() {
             </div>
           )}
         </div>
+
+
+        {/* 全部選択 */}
+        {!goodsLoading && filteredGoods.length > 0 && (
+          <div className="flex justify-end">
+            <button
+              onClick={selectAllVisible}
+              className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#5B9BD5] shadow-sm"
+            >
+              ✓ 表示中を全部選択
+            </button>
+          </div>
+        )}
 
         {/* 商品一覧 */}
         {goodsError.length > 0 && (
