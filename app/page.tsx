@@ -830,9 +830,14 @@ export default function Home() {
               );
 
               if (target) {
-                target.scrollIntoView({
+                const top =
+                  target.getBoundingClientRect().top +
+                  window.scrollY -
+                  120;
+
+                window.scrollTo({
+                  top,
                   behavior: "smooth",
-                  block: "start",
                 });
               }
             }}
