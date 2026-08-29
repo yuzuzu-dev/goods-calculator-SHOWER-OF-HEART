@@ -803,7 +803,7 @@ export default function Home() {
           </p>
 
           <p className="mt-1">
-            ファンメイドであり、SHOWER OF HEART公式とは一切関係ありません。
+            SHOWER OF HEART公式とは一切関係ありません。
           </p>
 
           <p className="mt-2">
@@ -816,6 +816,18 @@ export default function Home() {
 
           <p className="mt-2">
             本アプリの内容を無断で複製・改変し、公式または第三者を騙る形で再配布・公開することはおやめください。
+          </p>
+
+          <p className="mt-2">
+            本アプリは{" "}
+            <a href="https://twitter.com/yuzukabo7"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#5B9BD5] underline"
+            >
+              @yuzukabo7 
+            </a>
+             のファンメイドです。不具合等の報告は受け付けますが、返信・修正をお約束するものではございません。
           </p>
         </div>
       </section>
