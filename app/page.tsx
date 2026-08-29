@@ -795,6 +795,29 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* 注意書き */}
+        <div className="mt-3 rounded-md border border-gray-200 bg-white p-3 text-xs leading-relaxed text-gray-600">
+          <p className="font-bold text-gray-700">
+            こちらはグッズ購入参考用の非公式計算アプリです。
+          </p>
+
+          <p className="mt-1">
+            ファンメイドであり、SHOWER OF HEART公式とは一切関係ありません。
+          </p>
+
+          <p className="mt-2">
+            表示される金額・個数等は実際の販売価格や在庫状況と異なる場合がありますので、購入前に公式ページにて最新情報をご確認ください。
+          </p>
+
+          <p className="mt-2">
+            入力内容はお使いの端末(ブラウザ)にのみ保存されます。運営者が個人情報や入力内容を取得・収集することはありません。
+          </p>
+
+          <p className="mt-2">
+            本アプリの内容を無断で複製・改変し、公式または第三者を騙る形で再配布・公開することはおやめください。
+          </p>
+        </div>
       </section>
 
       {/* 合計 */}
