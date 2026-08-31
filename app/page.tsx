@@ -412,7 +412,6 @@ export default function Home() {
           </div>
 
           {/* 小カテゴリ */}
-
             <div className="mt-1">
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {categories.map((category) => (
@@ -651,9 +650,11 @@ export default function Home() {
             id="selected-goods"
             className="mt-3 rounded-md border border-[#D6C3E7] bg-white p-3 shadow-sm"
           >
-            <h2 className="text-base font-bold text-gray-900">
-              選択中のグッズ
-            </h2>
+            <div className="flex items-center gap-2 border-l-4 border-[#D6C3E7] pl-2">
+              <h2 className="text-base font-bold text-gray-900">
+                選択中のグッズ
+              </h2>
+            </div>
 
             <button
               onClick={resetQuantities}
