@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Search, RotateCcw } from "lucide-react";
 type Good = {
   id: number;
   name: string;
@@ -35,6 +36,7 @@ export default function Home() {
     const [updatedAt, setUpdatedAt] = useState<string | null>(null);
     const [cleaned, setCleaned] = useState(false);
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [showResetConfirm, setShowResetConfirm] = useState(false);
 
       useEffect(() => {
     const loadGoods = async () => {
@@ -216,15 +218,15 @@ export default function Home() {
     );
   };
 
-  // 全部リセット
+  // 全部リセット(確認モーダルを開く)
   const resetQuantities = () => {
-    const confirmed = window.confirm(
-      "選択中のグッズをすべてリセットしますか？"
-    );
+    setShowResetConfirm(true);
+  };
 
-    if (confirmed) {
-      setQuantities({});
-    }
+  // リセットを実行する
+  const confirmReset = () => {
+    setQuantities({});
+    setShowResetConfirm(false);
   };
 
   // 表示中の商品をすべて選択(各1個、サイズありは各サイズ1個)
@@ -331,7 +333,7 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-[#FDF1F4] pb-32">
+    <main className="min-h-screen bg-[#E5F0FF] pb-32">
       {/* ヘッダー */}
       <header className="relative bg-gradient-to-br from-[#4A90E2] via-[#5B9BD5] to-[#7BB8E8] px-4 py-4 text-white">
         <p className="text-[10px] font-medium tracking-[0.2em] text-white">
@@ -355,16 +357,20 @@ export default function Home() {
       </header>
 
       <section className="mx-auto max-w-xl space-y-2 p-4">
-        <div className="sticky top-0 z-40 -mx-4 bg-[#FDF1F4] px-4 pb-2 pt-0">
+        <div className="sticky top-0 z-40 -mx-4 bg-[#E5F0FF] px-4 pb-2 pt-0">
 
           {/* 検索 */}
-          <input
-            type="text"
-            placeholder="🔍 商品を検索..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-md border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-400"
-          />
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+
+            <input
+              type="text"
+              placeholder="商品を検索..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-xl border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-sm shadow-sm outline-none focus:border-gray-400"
+            />
+          </div>
 
           {/* 大カテゴリ */}
           <div className="mt-4">
@@ -621,7 +627,7 @@ export default function Home() {
         {selectedGoods.length > 0 && (
           <div
             id="selected-goods"
-            className="mt-3 rounded-md border border-[#93C5FD] bg-[#EFF6FF] p-3 shadow-sm"
+            className="mt-3 rounded-md border border-[#D6C3E7] bg-white p-3 shadow-sm"
           >
             <h2 className="text-base font-bold text-gray-900">
               選択中のグッズ
@@ -629,9 +635,10 @@ export default function Home() {
 
             <button
               onClick={resetQuantities}
-              className="mt-1 text-xs font-bold text-red-600"
+              className="mt-1 flex items-center gap-1 text-xs font-bold text-[#C97AA8]"
             >
-              🗑 全部リセット
+              <RotateCcw className="h-3.5 w-3.5" />
+              全部リセット
             </button>
 
             <div className="mt-3 space-y-2">
@@ -642,7 +649,7 @@ export default function Home() {
                 return (
                   <div
                     key={item.id}
-                    className="border-b pb-2"
+                    className="border-b border-[#D6C3E7] pb-2"
                   >
                     <div className="flex items-center justify-between">
                       <div>
@@ -736,7 +743,7 @@ export default function Home() {
                                         variant
                                       )
                                     }
-                                    className="ml-1 text-xs font-bold text-red-600"
+                                    className="ml-1 text-xs font-bold text-[#C97AA8]"
                                   >
                                     削除
                                   </button>
@@ -783,7 +790,7 @@ export default function Home() {
                               -(itemQuantities.default ?? 0)
                             )
                           }
-                          className="ml-1 text-xs font-bold text-red-600"
+                          className="ml-1 text-xs font-bold text-[#C97AA8]"
                         >
                           削除
                         </button>
@@ -833,7 +840,7 @@ export default function Home() {
       </section>
 
       {/* 合計 */}
-      <div className="fixed bottom-0 left-0 right-0 border-t border-[#B8D8EF] bg-[#F5FAFE] p-3 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 border-t border-[#D6C3E7] bg-white p-3 shadow-lg">
         <div className="mx-auto max-w-xl">
           <button
             onClick={() => {
@@ -887,7 +894,7 @@ export default function Home() {
           onClick={() =>
             window.scrollTo({ top: 0, behavior: "smooth" })
           }
-          className="fixed bottom-32 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#7BB8E8] text-white shadow-lg"
+          className="fixed bottom-32 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#5B9BD5] text-white shadow-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -902,6 +909,37 @@ export default function Home() {
             <polyline points="18 15 12 9 6 15" />
           </svg>
         </button>
+      )}
+
+      {/* リセット確認モーダル */}
+      {showResetConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-6">
+          <div className="w-full max-w-sm rounded-md bg-white p-5 shadow-lg">
+            <p className="text-sm font-bold text-gray-900">
+              選択中のグッズをすべてリセットしますか？
+            </p>
+
+            <p className="mt-1 text-xs text-gray-600">
+              この操作は取り消せません。
+            </p>
+
+            <div className="mt-4 flex gap-2">
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                className="flex-1 rounded-md bg-gray-100 py-2 text-sm font-bold text-gray-700"
+              >
+                キャンセル
+              </button>
+
+              <button
+                onClick={confirmReset}
+                className="flex-1 rounded-md bg-[#C97AA8] py-2 text-sm font-bold text-white"
+              >
+                リセットする
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );
