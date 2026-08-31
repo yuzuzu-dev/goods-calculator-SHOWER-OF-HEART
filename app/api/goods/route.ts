@@ -96,6 +96,7 @@ export async function GET() {
           categories,
           variants,
           sort,
+          bulkAmount,
         ] = columns;
 
         const rowNumber = index + 2;
@@ -178,6 +179,12 @@ export async function GET() {
         return null;
         }
 
+        const bulkAmountText = bulkAmount?.trim() ?? "";
+        const numericBulkAmount =
+          bulkAmountText === ""
+            ? null
+            : Number(bulkAmountText);
+
         return {
           id: numericId,
           name: name?.trim() ?? "",
@@ -205,6 +212,12 @@ export async function GET() {
                 .filter(Boolean)
             : undefined,
           sort: numericSort,
+          bulkAmount:
+            numericBulkAmount !== null &&
+            Number.isFinite(numericBulkAmount) &&
+            numericBulkAmount > 0
+              ? numericBulkAmount
+              : null,
         };
       })
       .filter((item) => item !== null);

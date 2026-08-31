@@ -11,6 +11,7 @@ type Good = {
   categories: string[];
   variants?: string[];
   sort: number;
+  bulkAmount: number | null;
 };
 
 export default function Home() {
@@ -229,7 +230,7 @@ export default function Home() {
     setShowResetConfirm(false);
   };
 
-  // 表示中の商品をすべて選択(各1個、サイズありは各サイズ1個)
+  // 表示中の商品をすべて選択(各1点、サイズありは各サイズ1点)
   const selectAllVisible = () => {
     setQuantities((current) => {
       const next = { ...current };
@@ -541,7 +542,7 @@ export default function Home() {
                               <p className="mt-0.5 text-[9px] text-gray-500">
                                 {reachedLimit
                                   ? "上限です"
-                                  : `あと${item.limit - quantity}個`}
+                                  : `あと${item.limit - quantity}点`}
                               </p>
                             )}
                           </div>
@@ -550,57 +551,80 @@ export default function Home() {
                     )}
                   </div>
                 </div>
-              ) : (
-            
-              <div className="mt-3 flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm text-gray-700">
-                    ¥{item.price.toLocaleString()}
-                  </p>
+                            ) : (
+                <>
+                  <div className="mt-3 flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-sm text-gray-700">
+                        ¥{item.price.toLocaleString()}
+                      </p>
 
-                  {item.limit !== null && (
-                    <p className="text-[10px] text-gray-500">
-                      {item.limit -
-                        (quantities[item.id]?.default ?? 0) >
-                      0
-                        ? `あと${
-                            item.limit -
-                            (quantities[item.id]?.default ?? 0)
-                          }個まで`
-                        : "上限に達しました"}
-                    </p>
+                      {item.limit !== null && (
+                        <p className="text-[10px] text-gray-500">
+                          {item.limit -
+                            (quantities[item.id]?.default ?? 0) >
+                          0
+                            ? `あと${
+                                item.limit -
+                                (quantities[item.id]?.default ?? 0)
+                              }点`
+                            : "上限に達しました"}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() =>
+                          changeQuantity(item.id, -1)
+                        }
+                        className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-base font-bold text-gray-900"
+                      >
+                        −
+                      </button>
+
+                      <span className="w-5 text-center text-base font-bold text-gray-900">
+                        {quantities[item.id]?.default ?? 0}
+                      </span>
+
+                      <button
+                        onClick={() =>
+                          changeQuantity(item.id, 1)
+                        }
+                        disabled={
+                          item.limit !== null &&
+                          (quantities[item.id]?.default ?? 0) >=
+                            item.limit
+                        }
+                        className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] text-base font-bold text-white disabled:bg-gray-300"
+                      >
+                        ＋
+                      </button>
+                    </div>
+                  </div>
+
+                  {item.bulkAmount !== null && (
+                    <div className="mt-2 flex justify-end">
+                      <button
+                        onClick={() =>
+                          changeQuantity(
+                            item.id,
+                            item.bulkAmount as number
+                          )
+                        }
+                        disabled={
+                          item.limit !== null &&
+                          (quantities[item.id]?.default ?? 0) +
+                            (item.bulkAmount as number) >
+                            item.limit
+                        }
+                        className="rounded-full border border-[#D6C3E7] px-3 py-1 text-xs font-bold text-gray-600 disabled:border-gray-200 disabled:text-gray-300"
+                      >
+                        まとめて{item.bulkAmount}点選択
+                      </button>
+                    </div>
                   )}
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() =>
-                      changeQuantity(item.id, -1)
-                    }
-                    className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-base font-bold text-gray-900"
-                  >
-                    −
-                  </button>
-
-                  <span className="w-5 text-center text-base font-bold text-gray-900">
-                    {quantities[item.id]?.default ?? 0}
-                  </span>
-
-                  <button
-                    onClick={() =>
-                      changeQuantity(item.id, 1)
-                    }
-                    disabled={
-                      item.limit !== null &&
-                      (quantities[item.id]?.default ?? 0) >=
-                        item.limit
-                    }
-                    className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5B9BD5] text-base font-bold text-white disabled:bg-gray-300"
-                  >
-                    ＋
-                  </button>
-                </div>
-              </div>
+                </>
               )}
             </div>
           );
