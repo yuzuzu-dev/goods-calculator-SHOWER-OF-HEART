@@ -400,7 +400,7 @@ export default function Home() {
           </div>
 
           {/* 小カテゴリ */}
-          {selectedGroup !== "すべて" && (
+
             <div className="mt-2">
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {categories.map((category) => (
@@ -421,7 +421,6 @@ export default function Home() {
                 ))}
               </div>
             </div>
-          )}
         </div>
 
 
@@ -667,12 +666,12 @@ export default function Home() {
                       </div>
 
                       <p className="mt-1 font-bold text-gray-900">
-  ¥
-  {(
-    item.price *
-    getItemQuantity(item.id)
-  ).toLocaleString()}
-</p>
+                        ¥
+                        {(
+                          item.price *
+                          getItemQuantity(item.id)
+                        ).toLocaleString()}
+                      </p>
                     </div>
 
                      {/* サイズあり商品 */}
