@@ -346,7 +346,7 @@ export default function Home() {
         </h1>
 
         <p className="mt-1 text-xs text-white">
-          ～輝く光のプレゼント～
+          - 輝く光のプレゼント -
         </p>
 
         <div className="absolute bottom-2 right-4 text-right text-xs text-white/80">
@@ -648,7 +648,7 @@ export default function Home() {
         {selectedGoods.length > 0 && (
           <div
             id="selected-goods"
-            className="mt-3 rounded-md border border-[#D6C3E7] bg-white p-3 shadow-sm"
+            className="mt-3 rounded-md border-2 border-[#D6C3E7] bg-white p-3 shadow-sm"
           >
             <div className="flex items-center gap-2 border-l-4 border-[#D6C3E7] pl-2">
               <h2 className="text-base font-bold text-gray-900">
