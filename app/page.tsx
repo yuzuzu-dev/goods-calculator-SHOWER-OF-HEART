@@ -369,7 +369,7 @@ export default function Home() {
               placeholder="商品を検索..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-sm shadow-sm outline-none focus:border-gray-400"
+              className="w-full rounded-md border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-sm shadow-sm outline-none focus:border-gray-400"
             />
           </div>
 
