@@ -375,9 +375,20 @@ export default function Home() {
 
           {/* 大カテゴリ */}
           <div className="mt-4">
-            <p className="mb-1 text-sm font-bold text-gray-600">
-              グッズカテゴリ
-            </p>
+            <div className="mb-2 flex items-start justify-between">
+              <p className="text-sm font-bold text-gray-600">
+                グッズカテゴリ
+              </p>
+
+              {!goodsLoading && filteredGoods.length > 0 && (
+                <button
+                  onClick={selectAllVisible}
+                  className="-mt-1 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#5B9BD5] shadow-sm"
+                >
+                  ✓ 表示中を全部選択
+                </button>
+              )}
+            </div>
 
             <div className="flex gap-2 overflow-x-auto pb-1">
               {groups.map((group) => (
@@ -402,7 +413,7 @@ export default function Home() {
 
           {/* 小カテゴリ */}
 
-            <div className="mt-2">
+            <div className="mt-1">
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {categories.map((category) => (
                   <button
@@ -424,18 +435,6 @@ export default function Home() {
             </div>
         </div>
 
-
-        {/* 全部選択 */}
-        {!goodsLoading && filteredGoods.length > 0 && (
-          <div className="flex justify-end">
-            <button
-              onClick={selectAllVisible}
-              className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#5B9BD5] shadow-sm"
-            >
-              ✓ 表示中を全部選択
-            </button>
-          </div>
-        )}
 
         {/* 商品一覧 */}
         {goodsError.length > 0 && (
@@ -875,7 +874,7 @@ export default function Home() {
                 const top =
                   target.getBoundingClientRect().top +
                   window.scrollY -
-                  120;
+                  180;
 
                 window.scrollTo({
                   top,
