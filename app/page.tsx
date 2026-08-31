@@ -651,34 +651,34 @@ export default function Home() {
                     key={item.id}
                     className="border-b border-[#D6C3E7] pb-2"
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-start justify-between">
                       <div>
                         <p className="text-sm font-medium leading-tight text-gray-900">
                           {item.name}
                         </p>
 
-                        <p className="mt-0.5 text-[10px] text-gray-500">
+                        <p className="mt-0.5 text-xs text-gray-500">
                           {item.group}
                         </p>
 
-                        <p className="mt-0.5 text-xs text-gray-600">
+                        <p className="text-sm text-gray-600">
                           ¥{item.price.toLocaleString()}
                         </p>
                       </div>
 
-                      <p className="font-bold text-gray-900">
-                        ¥
-                        {(
-                          item.price *
-                          getItemQuantity(item.id)
-                        ).toLocaleString()}
-                      </p>
+                      <p className="mt-1 font-bold text-gray-900">
+  ¥
+  {(
+    item.price *
+    getItemQuantity(item.id)
+  ).toLocaleString()}
+</p>
                     </div>
 
                      {/* サイズあり商品 */}
                     {item.variants &&
                     item.variants.length > 0 ? (
-                      <div className="mt-0.5 space-y-1">
+                      <div className="-mt-1 space-y-1">
                         {item.variants.map(
                           (variant) => {
                             const quantity =
@@ -755,7 +755,7 @@ export default function Home() {
                       </div>
                     ) : (
 
-                      <div className="-mt-1 flex items-center justify-end gap-1">
+                      <div className="-mt-4 flex items-center justify-end gap-1">
                         <button
                           onClick={() =>
                             changeQuantity(item.id, -1)
@@ -894,7 +894,7 @@ export default function Home() {
           onClick={() =>
             window.scrollTo({ top: 0, behavior: "smooth" })
           }
-          className="fixed bottom-32 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#5B9BD5] text-white shadow-lg"
+          className="fixed bottom-32 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-[#D6C3E7] text-white shadow-lg"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
